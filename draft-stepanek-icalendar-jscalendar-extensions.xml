@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE rfc [
+ <!ENTITY nbsp    "&#160;">
+ <!ENTITY zwsp   "&#8203;">
+ <!ENTITY nbhy   "&#8209;">
+ <!ENTITY wj     "&#8288;">
+]> 
+
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" category="std" consensus="true" docName="draft-stepanek-icalendar-jscalendar-extensions-0" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
+
+  <front>
+    <title abbrev="iCalendar JSCalendar Extensions">iCalendar Format Extensions for JSCalendar</title>
+    <author initials="R." surname="Stepanek" fullname="Robert Stepanek">
+      <organization>Fastmail</organization>
+      <address>
+        <postal>
+	  <extaddr>PO Box 234</extaddr>
+	  <street>Collins St. West</street>
+          <city>Melbourne</city>
+	  <region>VIC</region>
+          <code>8007</code>
+          <country>Australia</country>
+        </postal>
+        <email>rsto@fastmailteam.com</email>
+      </address>
+    </author>
+    <date year="2025" month="May" day="12"/>
+    <area>art</area>
+    <workgroup>calext</workgroup>
+
+    <keyword>calendars</keyword>
+    <keyword>iCalendar</keyword>
+    <keyword>JSCalendar</keyword>
+    <abstract>
+      <t>
+        This document defines a set of new elements for iCalendar and extends the use of existing ones. Their main purpose is to extend the semantics of iCalendar with elements defined in JSCalendar, but the new definitions also aim to be useful within just the iCalendar format.  This document updates RFC 5545 ("Internet Calendaring and Scheduling Core Object Specification (iCalendar)").
+      </t>
+    </abstract>
+  </front>
+  <middle>
+    <section>
+      <name>Introduction</name>
+      <t>
+        The JSCalendar <xref target="I-D.stepanek-jscalendarbis"/> format aims to be an alternative to the iCalendar <xref target="RFC5545"/> format for representation of calendaring data.  As such, it introduces new semantics that are not covered in the current definition of iCalendar and its various extensions.  Converting calendaring data between the two formats is defined in <xref target="I-D.ietf-calext-jscalendar-icalendar"/> with the goal of not losing any semantics during conversion. To achieve this, this document defines new elements iCalendar and extends existing definitions.
+      </t>
+      <section anchor="notational-conventions" numbered="true" toc="default">
+        <name>Notational Conventions</name>
+        <t>The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST NOT</bcp14>", "<bcp14>REQUIRED</bcp14>", "<bcp14>SHALL</bcp14>", "<bcp14>SHALL NOT</bcp14>", "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>", "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>", "<bcp14>MAY</bcp14>", and "<bcp14>OPTIONAL</bcp14>" in this document are to be interpreted as described in BCP 14 <xref target="RFC2119" format="default" sectionFormat="of" derivedContent="RFC2119"/> <xref target="RFC8174" format="default" sectionFormat="of" derivedContent="RFC8174"/> when, and only when, they appear in all capitals, as shown here.</t>
+      </section>
+      <section anchor="abnf-notations">
+        <name>ABNF Notations</name>
+        <t>The ABNF definitions in this document use the notations of <xref target="RFC5234"/>. ABNF rules not defined in this document are defined in either <xref target="RFC5234"/> (such as the ABNF for CRLF, WSP, DQUOTE, VCHAR, ALPHA, and DIGIT) or <xref target="RFC5545"/>.
+        </t>
+      </section>
+    </section>
+    <section>
+      <name>Updated Properties</name>
+    </section>
+    <section anchor="new-properties">
+      <name>New Properties</name>
+    </section>
+    <section anchor="new-parameters">
+      <name>New Parameters</name>
+    </section>
+    <section anchor="security-considerations" numbered="true" toc="default">
+      <name>Security Considerations</name>
+      <t>This specification extends <xref target="RFC5545"/>.  The same security considerations as outlined in <xref target="RFC5545" sectionFormat="of" section="7"/> apply.</t>
+    </section>
+    <section anchor="IANA">
+      <name>IANA Considerations</name>
+    </section>
+  </middle>
+  <back>
+
+    <references>
+      <name>References</name>
+      <references>
+        <name>Normative References</name>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3986.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5234.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5545.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
+      </references>
+    </references>
+    <references>
+      <name>Informative References</name>
+        <reference anchor="I-D.ietf-calext-jscalendar-icalendar" target="https://datatracker.ietf.org/doc/draft-ietf-calext-jscalendar-icalendar/">
+          <front>
+            <title>JSCalendar: Converting from and to iCalendar</title>
+            <author fullname="Robert Stepanek" initials="R." surname="Stepanek">
+              <organization>Fastmail</organization>
+            </author>
+            <date day="12" month="May" year="2025"/>
+          </front>
+          <seriesInfo name="Internet-Draft" value="draft-ietf-calext-jscalendar-icalendar"/>
+        </reference>
+        <reference anchor="I-D.stepanek-jscalendarbis" target="https://datatracker.ietf.org/doc/draft-stepanek-jscalendarbis/">
+          <front>
+            <title>JSCalendar: A JSON Representation of Calendar Data</title>
+            <author fullname="Neil Jenkins" initials="N.M." surname="Jenkins">
+              <organization>Fastmail</organization>
+            </author>
+            <author fullname="Robert Stepanek" initials="R." surname="Stepanek">
+              <organization>Fastmail</organization>
+            </author>
+            <date day="12" month="May" year="2025"/>
+          </front>
+          <seriesInfo name="Internet-Draft" value="draft-stepanek-jscalendarbis"/>
+        </reference>
+    </references>
+  </back>
+</rfc>
