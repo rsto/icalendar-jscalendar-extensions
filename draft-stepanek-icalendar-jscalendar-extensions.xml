@@ -56,6 +56,52 @@
     </section>
     <section>
       <name>Updated Properties</name>
+      <section>
+      <name>GEO Property</name>
+      <t>This specification modifies the definition of the "GEO" property to also allow "geo" URI values <xref target="RFC5870"/> as property values. The following additions are made to the definition of this property, originally specified in <xref target="RFC5545" section="3.8.1.6"/>:</t>
+      <dl>
+        <dt>Value Type:</dt>
+        <dd>The default value type for this property is FLOAT, the value MUST be two SEMICOLON-separated FLOAT values. The value type can also be set to URI, in which case the VALUE parameter <bcp14>MUST</bcp14> be set.</dd>
+        <dt>Description (in addition to original):</dt>
+        <dd>
+          <t>A Uniform Resource Identifier for Geographic Locations ("geo" URI) allows for richer semantics than the FLOAT value, such as defining a geographic altitude, location uncertainty or the coordinate's reference system. The GEO property value <bcp14>MAY</bcp14> be of type URI to contain such coordinates. Property values of type URI <bcp14>MUST</bcp14> be valid according to the "geo" URI scheme syntax defined in <xref target="RFC5870" section="3.3"/>.</t>
+      </dd>
+        <dt>Format Definition:</dt>
+        <dd>
+            <sourcecode name=""><![CDATA[
+geo         = geoorig / geouri
+
+geoorig     = "GEO" geoparam ":" geovalue CRLF
+
+geoparam    = *(";" other-param)
+
+geovalue    = float ";" float
+;Latitude and Longitude components
+
+geouri      = "GEO"
+                 ;
+                 ; The following is REQUIRED,
+                 ; but MUST NOT occur more than once.
+                 ;
+                 ";" "VALUE" "=" "URI"
+                 ; The following is OPTIONAL,
+                 ; and MAY occur more than once.
+                 ;
+                 *(";" other-param)
+                 ;
+              ":" uri CRLF
+]]></sourcecode>
+				</dd>
+        <dt>Example:</dt>
+        <dd><t>The following are examples of this property:</t>
+            <sourcecode name=""><![CDATA[
+GEO:37.386013;-122.082932
+
+GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
+]]></sourcecode>
+</dd>
+      </dl>
+    </section>
     </section>
     <section anchor="new-properties">
       <name>New Properties</name>
@@ -78,9 +124,9 @@
       <references>
         <name>Normative References</name>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
-        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5234.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5545.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5870.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
       </references>
     </references>
