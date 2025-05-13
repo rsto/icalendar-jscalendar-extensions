@@ -58,7 +58,7 @@
           <dd>The default value type for this property is FLOAT, the value MUST be two SEMICOLON-separated FLOAT values. The value type can also be set to URI, in which case the VALUE parameter <bcp14>MUST</bcp14> be set.</dd>
           <dt>Description (in addition to original):</dt>
           <dd>
-            <t>A Uniform Resource Identifier for Geographic Locations ("geo" URI) allows for richer semantics than the FLOAT value, such as defining a geographic altitude, location uncertainty or the coordinate's reference system. The GEO property value <bcp14>MAY</bcp14> be of type URI to contain such coordinates. Property values of type URI <bcp14>MUST</bcp14> be valid according to the "geo" URI scheme syntax defined in <xref target="RFC5870" section="3.3"/>.</t>
+            <t>A Uniform Resource Identifier for Geographic Locations ("geo" URI) allows for richer semantics than the FLOAT value, such as defining geographic altitude, location uncertainty or the coordinate's reference system. The GEO property value <bcp14>MAY</bcp14> be of type URI to contain such coordinates. Property values of type URI <bcp14>MUST</bcp14> be valid according to the "geo" URI scheme syntax defined in <xref target="RFC5870" section="3.3"/>.</t>
           </dd>
           <dt>Format Definition:</dt>
           <dd>
