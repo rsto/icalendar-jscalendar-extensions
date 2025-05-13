@@ -51,7 +51,7 @@
     <section>
       <name>Updated Properties</name>
       <section>
-        <name>GEO</name>
+        <name>GEO Property</name>
         <t>This specification modifies the definition of the "GEO" property to also allow "geo" URI values <xref target="RFC5870"/> as property values. The following additions are made to the definition of this property, originally specified in <xref target="RFC5545" section="3.8.1.6"/>:</t>
         <dl>
           <dt>Value Type (replaces original):</dt>
@@ -104,7 +104,7 @@ GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
     <section anchor="new-properties">
       <name>New Properties</name>
       <section>
-        <name>SHOW-WITHOUT-TIME</name>
+        <name>SHOW-WITHOUT-TIME Property</name>
         <dl>
           <dt>Property Name:</dt>
           <dd>SHOW-WITHOUT-TIME</dd>
@@ -152,7 +152,7 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
         </dl>
       </section>
       <section anchor="prop-uri">
-        <name>URI</name>
+        <name>URI Property</name>
         <dl>
           <dt>Property Name:</dt>
           <dd>URI</dd>
@@ -201,7 +201,7 @@ URI;VALUE=URI:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6
     <section anchor="new-components">
       <name>New Components</name>
       <section>
-        <name>VCONFERENCE</name>
+        <name>VCONFERENCE Component</name>
         <dl>
           <dt>Component Name:</dt>
           <dd>VCONFERENCE</dd>
