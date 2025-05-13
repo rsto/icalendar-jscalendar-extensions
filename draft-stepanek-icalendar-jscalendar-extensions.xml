@@ -29,9 +29,7 @@
     <keyword>iCalendar</keyword>
     <keyword>JSCalendar</keyword>
     <abstract>
-      <t>
-        This document defines a set of new elements for iCalendar and extends the use of existing ones. Their main purpose is to extend the semantics of iCalendar with elements defined in JSCalendar, but the new definitions also aim to be useful within just the iCalendar format.  This document updates RFC 5545 ("Internet Calendaring and Scheduling Core Object Specification (iCalendar)").
-      </t>
+      <t>This document defines a set of new elements for iCalendar and extends the use of existing ones. Their main purpose is to extend the semantics of iCalendar with elements defined in JSCalendar, but the new definitions also aim to be useful within just the iCalendar format.  This document updates RFC 5545 ("Internet Calendaring and Scheduling Core Object Specification (iCalendar)").</t>
     </abstract>
   </front>
   <middle>
@@ -362,7 +360,8 @@ CONFERENCE;VALUE=URI;FEATURE=AUDIO,VIDEO;
           <dd>
             <t>This component provides internationalized and localized alternate text representations of properties specified in a calendar component. Its main purpose is for use with descriptive elements such as the "SUMMARY" or "DESCRIPTION" properties, but it <bcp14>MAY</bcp14> be used with any property on which the "LANGUAGE" parameter can be set.</t>
             <t>A "VLOCALIZATION" component <bcp14>MUST</bcp14> contain one or more properties which each <bcp14>MUST</bcp14> specify exactly once the "LANGUAGE" parameter. The "LANGUAGE" parameter values <bcp14>MAY</bcp14> differ between properties. The component <bcp14>MUST</bcp14> specify the <xref target="prop-uri">"URI" property</xref> exactly once. A calendar component that contains the "VLOCALIZATION" component is then localized to a specific human language by replacing all its properties where the "ALTREP" parameter value matches the "URI" property value of the "VLOCALIZATION" with those properties in the "VLOCALIZATION" component, for which the "LANGUAGE" parameter value matches the language tag of the target human language.</t>
-            <t>The localized calendar component <bcp14>MUST</bcp14> be valid, e.g. mandatory properties <bcp14>MUST</bcp14> be set. The URI values of the "ALTREP" parameter and "URI" property <bcp14>MUST</bcp14> be compared as character strings, as specified in <xref target="RFC3986" section="6"/>. The "VLOCALIZATION" component <bcp14>SHOULD</bcp14> only contain properties for which a property of the same name also is specified in the non-localized component, e.g. a "VLOCALIZATION" component is only meant to provide alternate text representations, not to add new content.</t>
+            <t>The localized calendar component <bcp14>MUST</bcp14> be valid, e.g. mandatory properties <bcp14>MUST</bcp14> be set. The URI values of the "ALTREP" parameter and "URI" property <bcp14>MUST</bcp14> be compared as character strings, as specified in <xref target="RFC3986" section="6"/>. The URI value <bcp14>MUST</bcp14> be a valid URI in the "urn" scheme <xref target="RFC8141"/> with namespace identifier "uuid" <xref target="RFC9562"/>.</t>
+            <t>The "VLOCALIZATION" component <bcp14>SHOULD</bcp14> only contain properties for which a property of the same name also is specified in the non-localized component, e.g. a "VLOCALIZATION" component is only meant to provide alternate text representations, not to add new content.</t>
             <t>Implementations that are unaware of the "VLOCALIZATION" component might change property values in the non-localized component, inadvertently invalidating the contents of the localized properties. To mitigate this, implementations <bcp14>MUST</bcp14> specify the <xref target="prop-digest">"DIGEST"</xref> property at least once in the "VLOCALIZATION" component. The property value <bcp14>MUST</bcp14> be the "Property Set Digest" as defined in <xref target="prop-digest"/>, where the property set consists of all those properties in the non-localized component, for which the "ALTREP" parameter value matches the "URI" property value of the "VLOCALIZATION" component. The "ALTREP" parameter is part of the hashed property. Multiple "DIGEST" properties <bcp14>MUST</bcp14> each specify a different "HASH" parameter value.</t>
             <t>Implementations <bcp14>MUST</bcp14> consider a "VLOCALIZATION" component as outdated, if the "DIGEST" property value does not match the expected digest. How to handle outdated localizations is implementation-specific, but implementations <bcp14>MUST</bcp14> not preserve "VLOCALIZATION" components with outdated "DIGEST" property values.</t>
           </dd>
@@ -442,7 +441,9 @@ END:VLOCALIZATION
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5870.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6151.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7986.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8141.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9562.xml"/>
       </references>
     </references>
     <references>
