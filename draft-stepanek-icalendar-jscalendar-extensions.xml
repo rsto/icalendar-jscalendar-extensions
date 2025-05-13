@@ -54,39 +54,42 @@
         <name>GEO</name>
         <t>This specification modifies the definition of the "GEO" property to also allow "geo" URI values <xref target="RFC5870"/> as property values. The following additions are made to the definition of this property, originally specified in <xref target="RFC5545" section="3.8.1.6"/>:</t>
         <dl>
-          <dt>Value Type:</dt>
+          <dt>Value Type (replaces original):</dt>
           <dd>The default value type for this property is FLOAT, the value MUST be two SEMICOLON-separated FLOAT values. The value type can also be set to URI, in which case the VALUE parameter <bcp14>MUST</bcp14> be set.</dd>
           <dt>Description (in addition to original):</dt>
           <dd>
             <t>A Uniform Resource Identifier for Geographic Locations ("geo" URI) allows for richer semantics than the FLOAT value, such as defining geographic altitude, location uncertainty or the coordinate's reference system. The GEO property value <bcp14>MAY</bcp14> be of type URI to contain such coordinates. Property values of type URI <bcp14>MUST</bcp14> be valid according to the "geo" URI scheme syntax defined in <xref target="RFC5870" section="3.3"/>.</t>
           </dd>
-          <dt>Format Definition:</dt>
+          <dt>Format Definition (replaces original):</dt>
           <dd>
             <sourcecode name=""><![CDATA[
-geo         = geoorig / geouri
+geo         = geofloat / geouri
 
-geoorig     = "GEO" geoparam ":" geovalue CRLF
+geofloat    = "GEO" geoparam ":" geovalue CRLF
 
 geoparam    = *(";" other-param)
 
-geovalue    = float ";" float
 ;Latitude and Longitude components
+geovalue    = float ";" float
 
-geouri      = "GEO"
-                 ;
-                 ; The following is REQUIRED,
-                 ; but MUST NOT occur more than once.
-                 ;
-                 ";" "VALUE" "=" "URI"
-                 ; The following is OPTIONAL,
-                 ; and MAY occur more than once.
-                 ;
-                 *(";" other-param)
-                 ;
-              ":" uri CRLF
+geouri      = "GEO" geouriparam ":" uri CRLF
+
+geouriparam = *(
+               ;
+               ; The following is REQUIRED,
+               ; but MUST NOT occur more than once.
+               ;
+               (";" "VALUE" "=" "URI") /
+               ;
+               ; The following is OPTIONAL,
+               ; and MAY occur more than once.
+               ;
+               (";" other-param)
+               ;
+               )
 ]]></sourcecode>
           </dd>
-          <dt>Example:</dt>
+          <dt>Example(s):</dt>
           <dd>
             <t>The following are examples of this property:</t>
             <sourcecode name=""><![CDATA[
@@ -123,18 +126,21 @@ GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
           <dt>Format Definition:</dt>
           <dd>
             <sourcecode name=""><![CDATA[
-showwotime    = "SHOW-WITHOUT-TIME"
-                ;
-                ; The following is REQUIRED,
-                ; but MUST NOT occur more than once.
-                ;
-                ";" "VALUE" "=" "BOOLEAN"
-                ; The following is OPTIONAL,
-                ; and MAY occur more than once.
-                ;
-                *(";" other-param)
-                ;
-                ":" "TRUE" CRLF
+showwt      = "SHOW-WITHOUT-TIME" showwtparam ":" "TRUE" CRLF
+
+showwtparam = *(
+               ;
+               ; The following is REQUIRED,
+               ; but MUST NOT occur more than once.
+               ;
+               (";" "VALUE" "=" "BOOLEAN") /
+               ;
+               ; The following is OPTIONAL,
+               ; and MAY occur more than once.
+               ;
+               (";" other-param)
+               ;
+               )
 ]]></sourcecode>
           </dd>
           <dt>Example:</dt>
@@ -215,29 +221,29 @@ URI;VALUE=URI:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6
             <sourcecode name=""><![CDATA[
 vconfc    = "BEGIN" ":" "VCONFERENCE" CRLF
             *(
-               ;
-               ; The following are REQUIRED,
-               ; but MUST NOT occur more than once.
-               ;
-               uriprop /
-               ;
-               ; The following are OPTIONAL,
-               ; but MUST NOT occur more than once.
-               ;
-               description /
-               ;
-               ; The following are OPTIONAL,
-               ; and MAY occur more than once
-               ;
-               styleddescription
-               ;
-               ;
-               ; The following are OPTIONAL,
-               ; and MAY occur more than once.
-               ;
-               x-prop / iana-prop
-               ;
-            )
+             ;
+             ; The following are REQUIRED,
+             ; but MUST NOT occur more than once.
+             ;
+             uriprop /
+             ;
+             ; The following are OPTIONAL,
+             ; but MUST NOT occur more than once.
+             ;
+             description /
+             ;
+             ; The following are OPTIONAL,
+             ; and MAY occur more than once
+             ;
+             styleddescription
+             ;
+             ;
+             ; The following are OPTIONAL,
+             ; and MAY occur more than once.
+             ;
+             x-prop / iana-prop
+             ;
+             )
             "END" ":" "VCONFERENCE" CRLF
 ]]></sourcecode>
           </dd>
