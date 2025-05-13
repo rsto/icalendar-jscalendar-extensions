@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE rfc [
- <!ENTITY nbsp    "&#160;">
- <!ENTITY zwsp   "&#8203;">
- <!ENTITY nbhy   "&#8209;">
- <!ENTITY wj     "&#8288;">
-]> 
-
+<!ENTITY nbsp "&#160;">
+<!ENTITY zwsp "&#8203;">
+<!ENTITY nbhy "&#8209;">
+<!ENTITY wj "&#8288;">
+]>
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" category="std" consensus="true" docName="draft-stepanek-icalendar-jscalendar-extensions-0" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
-
   <front>
     <title abbrev="iCalendar JSCalendar Extensions">iCalendar Format Extensions for JSCalendar</title>
     <author initials="R." surname="Stepanek" fullname="Robert Stepanek">
       <organization>Fastmail</organization>
       <address>
         <postal>
-	  <extaddr>PO Box 234</extaddr>
-	  <street>Collins St. West</street>
+          <extaddr>PO Box 234</extaddr>
+          <street>Collins St. West</street>
           <city>Melbourne</city>
-	  <region>VIC</region>
+          <region>VIC</region>
           <code>8007</code>
           <country>Australia</country>
         </postal>
@@ -28,7 +25,6 @@
     <date year="2025" month="May" day="12"/>
     <area>art</area>
     <workgroup>calext</workgroup>
-
     <keyword>calendars</keyword>
     <keyword>iCalendar</keyword>
     <keyword>JSCalendar</keyword>
@@ -57,17 +53,17 @@
     <section>
       <name>Updated Properties</name>
       <section>
-      <name>GEO Property</name>
-      <t>This specification modifies the definition of the "GEO" property to also allow "geo" URI values <xref target="RFC5870"/> as property values. The following additions are made to the definition of this property, originally specified in <xref target="RFC5545" section="3.8.1.6"/>:</t>
-      <dl>
-        <dt>Value Type:</dt>
-        <dd>The default value type for this property is FLOAT, the value MUST be two SEMICOLON-separated FLOAT values. The value type can also be set to URI, in which case the VALUE parameter <bcp14>MUST</bcp14> be set.</dd>
-        <dt>Description (in addition to original):</dt>
-        <dd>
-          <t>A Uniform Resource Identifier for Geographic Locations ("geo" URI) allows for richer semantics than the FLOAT value, such as defining a geographic altitude, location uncertainty or the coordinate's reference system. The GEO property value <bcp14>MAY</bcp14> be of type URI to contain such coordinates. Property values of type URI <bcp14>MUST</bcp14> be valid according to the "geo" URI scheme syntax defined in <xref target="RFC5870" section="3.3"/>.</t>
-      </dd>
-        <dt>Format Definition:</dt>
-        <dd>
+        <name>GEO Property</name>
+        <t>This specification modifies the definition of the "GEO" property to also allow "geo" URI values <xref target="RFC5870"/> as property values. The following additions are made to the definition of this property, originally specified in <xref target="RFC5545" section="3.8.1.6"/>:</t>
+        <dl>
+          <dt>Value Type:</dt>
+          <dd>The default value type for this property is FLOAT, the value MUST be two SEMICOLON-separated FLOAT values. The value type can also be set to URI, in which case the VALUE parameter <bcp14>MUST</bcp14> be set.</dd>
+          <dt>Description (in addition to original):</dt>
+          <dd>
+            <t>A Uniform Resource Identifier for Geographic Locations ("geo" URI) allows for richer semantics than the FLOAT value, such as defining a geographic altitude, location uncertainty or the coordinate's reference system. The GEO property value <bcp14>MAY</bcp14> be of type URI to contain such coordinates. Property values of type URI <bcp14>MUST</bcp14> be valid according to the "geo" URI scheme syntax defined in <xref target="RFC5870" section="3.3"/>.</t>
+          </dd>
+          <dt>Format Definition:</dt>
+          <dd>
             <sourcecode name=""><![CDATA[
 geo         = geoorig / geouri
 
@@ -91,17 +87,18 @@ geouri      = "GEO"
                  ;
               ":" uri CRLF
 ]]></sourcecode>
-				</dd>
-        <dt>Example:</dt>
-        <dd><t>The following are examples of this property:</t>
+          </dd>
+          <dt>Example:</dt>
+          <dd>
+            <t>The following are examples of this property:</t>
             <sourcecode name=""><![CDATA[
 GEO:37.386013;-122.082932
 
 GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
 ]]></sourcecode>
-</dd>
-      </dl>
-    </section>
+          </dd>
+        </dl>
+      </section>
     </section>
     <section anchor="new-properties">
       <name>New Properties</name>
@@ -141,13 +138,13 @@ showwotime    = "SHOW-WITHOUT-TIME"
                 ;
                 ":" "TRUE" CRLF
 ]]></sourcecode>
-</dd>
+          </dd>
           <dt>Example:</dt>
           <dd>
             <sourcecode name=""><![CDATA[
 SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
 ]]></sourcecode>
-</dd>
+          </dd>
         </dl>
       </section>
     </section>
@@ -163,7 +160,6 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
     </section>
   </middle>
   <back>
-
     <references>
       <name>References</name>
       <references>
@@ -177,29 +173,29 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
     </references>
     <references>
       <name>Informative References</name>
-        <reference anchor="I-D.ietf-calext-jscalendar-icalendar" target="https://datatracker.ietf.org/doc/draft-ietf-calext-jscalendar-icalendar/">
-          <front>
-            <title>JSCalendar: Converting from and to iCalendar</title>
-            <author fullname="Robert Stepanek" initials="R." surname="Stepanek">
-              <organization>Fastmail</organization>
-            </author>
-            <date day="12" month="May" year="2025"/>
-          </front>
-          <seriesInfo name="Internet-Draft" value="draft-ietf-calext-jscalendar-icalendar"/>
-        </reference>
-        <reference anchor="I-D.stepanek-jscalendarbis" target="https://datatracker.ietf.org/doc/draft-stepanek-jscalendarbis/">
-          <front>
-            <title>JSCalendar: A JSON Representation of Calendar Data</title>
-            <author fullname="Neil Jenkins" initials="N.M." surname="Jenkins">
-              <organization>Fastmail</organization>
-            </author>
-            <author fullname="Robert Stepanek" initials="R." surname="Stepanek">
-              <organization>Fastmail</organization>
-            </author>
-            <date day="12" month="May" year="2025"/>
-          </front>
-          <seriesInfo name="Internet-Draft" value="draft-stepanek-jscalendarbis"/>
-        </reference>
+      <reference anchor="I-D.ietf-calext-jscalendar-icalendar" target="https://datatracker.ietf.org/doc/draft-ietf-calext-jscalendar-icalendar/">
+        <front>
+          <title>JSCalendar: Converting from and to iCalendar</title>
+          <author fullname="Robert Stepanek" initials="R." surname="Stepanek">
+            <organization>Fastmail</organization>
+          </author>
+          <date day="12" month="May" year="2025"/>
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-calext-jscalendar-icalendar"/>
+      </reference>
+      <reference anchor="I-D.stepanek-jscalendarbis" target="https://datatracker.ietf.org/doc/draft-stepanek-jscalendarbis/">
+        <front>
+          <title>JSCalendar: A JSON Representation of Calendar Data</title>
+          <author fullname="Neil Jenkins" initials="N.M." surname="Jenkins">
+            <organization>Fastmail</organization>
+          </author>
+          <author fullname="Robert Stepanek" initials="R." surname="Stepanek">
+            <organization>Fastmail</organization>
+          </author>
+          <date day="12" month="May" year="2025"/>
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-stepanek-jscalendarbis"/>
+      </reference>
     </references>
   </back>
 </rfc>
