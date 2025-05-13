@@ -117,14 +117,14 @@ GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
           <dt>Description:</dt>
           <dd>
             <t>This property represents the result of a hash function or checksum algorithm. The semantics and purpose of its property value <bcp14>MUST</bcp14> be defined for each calendar component which allows to specify the "DIGEST" property. See the definition of the  <xref target="comp-vlocalization">"VLOCALIZATION" component</xref> for an example.</t>
-            <t>This document defines the "Property Set Digest", which is the result of applying the hash function specified in the "HASH" parameter to a set of iCalendar properties. This digest is created as follows:</t>
+            <t>This document defines the "Property Set Digest", which is the result of applying the hash function specified in the "HASH" parameter to a set of iCalendar properties. This digest is created as follows, all strings <bcp14>MUST</bcp14> be UTF-8 encoded and in <xref target="UNorm">Unicode Normalization Form NFC</xref>:</t>
             <ol>
-              <li>For each property in the set, reorder its parameters in ascending order by comparing its parameter names, breaking ties by parameter value. Parameter names and parameter values in form "paramtext" compare in uppercase, parameter values in form "quoted-string" compare case-sensitively. Compare strings using the <xref target="UCA">Unicode Collation Algorithm</xref>.</li>
-              <li>For each sorted property, generate an unfolded content line. Normalize each content line using <xref target="UNorm">Unicode Normalization Form NFC</xref>. Every content line ends with the CRLF sequence.</li>
-              <li>Sort the resulting content lines in ascending order, using the Unicode Collation Algorithm. Concatenate the content lines to a single string, using UTF-8 encoding.</li>
+              <li>For each property in the set, reorder its parameters in ascending order by comparing its parameter names, breaking ties by parameter value. Parameter names and parameter values in form "paramtext" compare in uppercase, parameter values in form "quoted-string" compare case-sensitively.</li>
+              <li>For each sorted property, generate an unfolded content line. Every content line ends with the CRLF sequence.</li>
+              <li>Sort the resulting content line strings in ascending order, then concatenate them to a single string, preserving their CRLF endings.</li>
               <li>Apply the hash function to the string and set the result as the "DIGEST" property value.</li>
             </ol>
-            <t>The Property Set Digest can produce different digests for property sets that are semantically equivalent. This is because it does not enforce setting or removing default parameter values, or the "VALUE" parameter, or any other iCalendar-specific normalization. As a result, differing digests only indicate that <em>something</em> changed in the property set, but if this change is significant depends on the semantics of the calendar component that specifies using the "DIGEST" property.</t>
+            <t>The Property Set Digest can produce different digests for property sets that are semantically equivalent. This is because it does not enforce setting or removing default parameter values, or the "VALUE" parameter, or applying any other iCalendar-specific normalization. As a result, differing digests only indicate that <em>something</em> changed in the property set, but if this change is significant depends on the semantics of the calendar component that specifies using the "DIGEST" property.</t>
           </dd>
           <dt>Format Definition:</dt>
           <dd>
@@ -470,13 +470,6 @@ END:VLOCALIZATION
           <date day="12" month="May" year="2025"/>
         </front>
         <seriesInfo name="Internet-Draft" value="draft-stepanek-jscalendarbis"/>
-      </reference>
-      <reference anchor="UCA" target="https://www.unicode.org/reports/tr10/" quoteTitle="true">
-        <front>
-          <title>UTS #10, Unicode Collation Algorithm (UCA)</title>
-          <author/>
-          <date/>
-        </front>
       </reference>
       <reference anchor="UNorm" target="https://www.unicode.org/reports/tr15/" quoteTitle="false">
         <front>
