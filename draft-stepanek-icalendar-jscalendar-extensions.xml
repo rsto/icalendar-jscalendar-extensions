@@ -103,6 +103,59 @@ GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
     </section>
     <section anchor="new-properties">
       <name>New Properties</name>
+      <section anchor="prop-digest">
+        <name>DIGEST Property</name>
+        <dl>
+          <dt>Property Name:</dt>
+          <dd>DIGEST</dd>
+          <dt>Purpose:</dt>
+          <dd>To represent the result of a hash function or a checksum.</dd>
+          <dt>Value Type:</dt>
+          <dd>TEXT</dd>
+          <dt>Property Parameters:</dt>
+          <dd>The <xref target="param-hash">"HASH" parameter</xref> <bcp14>MUST</bcp14> be specified exactly once on this property. The "LANGUAGE" parameter <bcp14>MUST NOT</bcp14> be specified on this property. Other IANA and non-standard parameters <bcp14>MAY</bcp14> be specified on this property.</dd>
+          <dt>Conformance:</dt>
+          <dd>This property can be specified once in a "VLOCALIZATION" calendar component.</dd>
+          <dt>Description:</dt>
+          <dd>
+            <t>This property represents the result of a hash function or checksum algorithm. The semantics and purpose of its property value <bcp14>MUST</bcp14> be defined for each calendar component which allows to specify the "DIGEST" property. See the definition of the  <xref target="comp-vlocalization">"VLOCALIZATION" component</xref> for an example.</t>
+            <t>This document defines the "Property Set Digest", which is the result of applying the hash function specified in the "HASH" parameter to a set of iCalendar properties. This digest is created as follows:</t>
+            <ol>
+              <li>For each property in the set, reorder its parameters in ascending order by comparing its parameter names, breaking ties by parameter value. Parameter names and parameter values in form "paramtext" compare in uppercase, parameter values in form "quoted-string" compare case-sensitively. Compare strings using the <xref target="UCA">Unicode Collation Algorithm</xref>.</li>
+              <li>For each sorted property, generate an unfolded content line. Normalize each content line using <xref target="UNorm">Unicode Normalization Form NFC</xref>. Every content line ends with the CRLF sequence.</li>
+              <li>Sort the resulting content lines in ascending order, using the Unicode Collation Algorithm. Concatenate the content lines to a single string, using UTF-8 encoding.</li>
+              <li>Apply the hash function to the string and set the result as the "DIGEST" property value.</li>
+            </ol>
+            <t>The Property Set Digest can produce different digests for property sets that are semantically equivalent. This is because it does not enforce setting or removing default parameter values, or the "VALUE" parameter, or any other iCalendar-specific normalization. As a result, differing digests only indicate that <em>something</em> changed in the property set, but if this change is significant depends on the semantics of the calendar component that specifies using the "DIGEST" property.</t>
+          </dd>
+          <dt>Format Definition:</dt>
+          <dd>
+            <sourcecode name=""><![CDATA[
+digest      = "DIGEST" digestparam ":" TEXT CRLF
+
+digestparam = *(
+               ;
+               ; The following is REQUIRED,
+               ; but MUST NOT occur more than once.
+               ;
+               (";" hashparam )
+               ;
+               ; The following is OPTIONAL,
+               ; and MAY occur more than once.
+               ;
+               (";" other-param)
+               ;
+               )
+]]></sourcecode>
+          </dd>
+          <dt>Example:</dt>
+          <dd>
+            <sourcecode name=""><![CDATA[
+DIGEST;HASH=MD5:a16d6a19dd1d5c3baf591276eff96433
+]]></sourcecode>
+          </dd>
+        </dl>
+      </section>
       <section>
         <name>SHOW-WITHOUT-TIME Property</name>
         <dl>
@@ -161,7 +214,7 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
           <dt>Value Type:</dt>
           <dd>URI -- no default</dd>
           <dt>Property Parameters:</dt>
-          <dd>IANA and non-standard parameters can be specified on this property.</dd>
+          <dd>The "LANGUAGE" parameter <bcp14>MUST NOT</bcp14> be specified on this property. Other IANA and non-standard parameters can be specified on this property.</dd>
           <dt>Conformance:</dt>
           <dd>This property can be specified once in a "VCONFERENCE" calendar component.</dd>
           <dt>Description:</dt>
@@ -193,6 +246,40 @@ uriparam = *(
           <dd>
             <sourcecode name=""><![CDATA[
 URI;VALUE=URI:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6
+]]></sourcecode>
+          </dd>
+        </dl>
+      </section>
+    </section>
+    <section anchor="new-parameters">
+      <name>New Parameters</name>
+      <section anchor="param-hash">
+        <name>HASH Parameter</name>
+        <dl>
+          <dt>Parameter Name:</dt>
+          <dd>HASH</dd>
+          <dt>Purpose:</dt>
+          <dd>To specify a hash function for a hash digest.</dd>
+          <dt>Description:</dt>
+          <dd>
+            <t>In context of the "DIGEST" property, this parameter specifies the hash function that was used to create the property value. Any parameter value is allowed, it is not an enumerated value to allow future parameter values incorporate parameters for hash functions. The same case sensitivity as for other parameters value applies: "paramtext" values are case-insensitive, "quoted-string" values are case-sensitive. This document defines the semantics for the following parameter value:</t>
+            <dl>
+              <dt>Parameter Value:</dt>
+              <dd>MD5 (case-insensitive)</dd>
+              <dt>Description</dt>
+              <dd>This produces the <xref target="RFC1321">MD5 Message-Digest</xref> from its input string. This hash <bcp14>MUST NOT</bcp14> be used for cryptographic purposes and the security considerations of <xref target="RFC6151"/> apply. The result of this hash is hex-encoded with all characters in lowercase.</dd>
+            </dl>
+          </dd>
+          <dt>Format Definition:</dt>
+          <dd>
+            <sourcecode name=""><![CDATA[
+hashparam = "HASH" "=" param-value *("," param-value)
+]]></sourcecode>
+          </dd>
+          <dt>Example:</dt>
+          <dd>
+            <sourcecode name=""><![CDATA[
+DIGEST;HASH=MD5:a16d6a19dd1d5c3baf591276eff96433
 ]]></sourcecode>
           </dd>
         </dl>
@@ -262,13 +349,84 @@ CONFERENCE;VALUE=URI;FEATURE=AUDIO,VIDEO;
           </dd>
         </dl>
       </section>
+      <section anchor="comp-vlocalization">
+        <name>VLOCALIZATION Component</name>
+        <dl>
+          <dt>Component Name:</dt>
+          <dd>VLOCALIZATION</dd>
+          <dt>Purpose:</dt>
+          <dd>To provide internationalized and localized alternate text representations of calendar component elements.</dd>
+          <dt>Conformance:</dt>
+          <dd>This component can be specified multiple times in any component that allows to specify at least one property with the "LANGUAGE" parameter.</dd>
+          <dt>Description:</dt>
+          <dd>
+            <t>This component provides internationalized and localized alternate text representations of properties specified in a calendar component. Its main purpose is for use with descriptive elements such as the "SUMMARY" or "DESCRIPTION" properties, but it <bcp14>MAY</bcp14> be used with any property on which the "LANGUAGE" parameter can be set.</t>
+            <t>A "VLOCALIZATION" component <bcp14>MUST</bcp14> contain one or more properties which each <bcp14>MUST</bcp14> specify exactly once the "LANGUAGE" parameter. The "LANGUAGE" parameter values <bcp14>MAY</bcp14> differ between properties. The component <bcp14>MUST</bcp14> specify the <xref target="prop-uri">"URI" property</xref> exactly once. A calendar component that contains the "VLOCALIZATION" component is then localized to a specific human language by replacing all its properties where the "ALTREP" parameter value matches the "URI" property value of the "VLOCALIZATION" with those properties in the "VLOCALIZATION" component, for which the "LANGUAGE" parameter value matches the language tag of the target human language.</t>
+            <t>The localized calendar component <bcp14>MUST</bcp14> be valid, e.g. mandatory properties <bcp14>MUST</bcp14> be set. The URI values of the "ALTREP" parameter and "URI" property <bcp14>MUST</bcp14> be compared as character strings, as specified in <xref target="RFC3986" section="6"/>. The "VLOCALIZATION" component <bcp14>SHOULD</bcp14> only contain properties for which a property of the same name also is specified in the non-localized component, e.g. a "VLOCALIZATION" component is only meant to provide alternate text representations, not to add new content.</t>
+            <t>Implementations that are unaware of the "VLOCALIZATION" component might change property values in the non-localized component, inadvertently invalidating the contents of the localized properties. To mitigate this, implementations <bcp14>MUST</bcp14> specify the <xref target="prop-digest">"DIGEST"</xref> property at least once in the "VLOCALIZATION" component. The property value <bcp14>MUST</bcp14> be the "Property Set Digest" as defined in <xref target="prop-digest"/>, where the property set consists of all those properties in the non-localized component, for which the "ALTREP" parameter value matches the "URI" property value of the "VLOCALIZATION" component. The "ALTREP" parameter is part of the hashed property. Multiple "DIGEST" properties <bcp14>MUST</bcp14> each specify a different "HASH" parameter value.</t>
+            <t>Implementations <bcp14>MUST</bcp14> consider a "VLOCALIZATION" component as outdated, if the "DIGEST" property value does not match the expected digest. How to handle outdated localizations is implementation-specific, but implementations <bcp14>MUST</bcp14> not preserve "VLOCALIZATION" components with outdated "DIGEST" property values.</t>
+          </dd>
+          <dt>Format Definition:</dt>
+          <dd>
+            <sourcecode name=""><![CDATA[
+vlocalizationc = "BEGIN" ":" "VLOCALIZATION" CRLF
+                 *(
+                  ;
+                  ; The following is REQUIRED,
+                  ; but MUST NOT occur more than once.
+                  ;
+                  uriprop
+                  ;
+                  ; The following is REQUIRED,
+                  ; and MAY occur more than once.
+                  ; "HASH" parameter values MUST differ.
+                  ;
+                  digest
+                  ;
+                  ; The following are OPTIONAL,
+                  ; and MAY occur more than once.
+                  ; At least one MUST have the
+                  ; "LANGUAGE" parameter set.
+                  ;  
+                  x-prop / iana-prop
+                  ;
+                  )
+                 "END" ":" "VLOCALIZATION" CRLF
+]]></sourcecode>
+          </dd>
+          <dt>Example(s):</dt>
+          <dd>
+            <t>The following is an example of this component:</t>
+            <sourcecode name=""><![CDATA[
+DTSTART;VALUE=DATE:20250701
+SUMMARY;LANGUAGE="en-ca"
+ ;ALTREP="urn:uuid:cd92c017-f7b0-4ac1-a852-c1d28ab172e5"
+ :Canada Day
+DESCRIPTION;LANGUAGE="en-ca"
+ ;ALTREP="urn:uuid:cd92c017-f7b0-4ac1-a852-c1d28ab172e5"
+ :Canada Day celebrates the anniversary of Canadian Confederation
+ which occurred on July 1, 1867.
+BEGIN:VLOCALIZATION
+URI;VALUE=URI:urn:uuid:cd92c017-f7b0-4ac1-a852-c1d28ab172e5
+DIGEST;HASH=MD5:863f0708251b33990b43830a8ca754e4
+SUMMARY;LANGUAGE="fr-ca"
+ :Fête du Canada
+DESCRIPTION;LANGUAGE="fr-ca"
+ :La Fête du Canada est un jour férié commémorant la date de
+ formation du Canada le 1er juillet 1867.
+END:VLOCALIZATION
+]]></sourcecode>
+          </dd>
+        </dl>
+      </section>
     </section>
     <section anchor="security-considerations" numbered="true" toc="default">
       <name>Security Considerations</name>
-      <t>This specification extends <xref target="RFC5545"/>.  The same security considerations as outlined in <xref target="RFC5545" sectionFormat="of" section="7"/> apply.</t>
+      <t>This specification extends <xref target="RFC5545"/>.  The same security considerations as outlined in <xref target="RFC5545" sectionFormat="of" section="7"/> apply. In addition, <xref target="param-hash"/> refers to the security considerations of the MD5 Message-Digest Algorithm.</t>
     </section>
     <section anchor="IANA">
       <name>IANA Considerations</name>
+      <t>TBD</t>
     </section>
   </middle>
   <back>
@@ -276,11 +434,13 @@ CONFERENCE;VALUE=URI;FEATURE=AUDIO,VIDEO;
       <name>References</name>
       <references>
         <name>Normative References</name>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.1321.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5234.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5545.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5870.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6151.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
       </references>
@@ -310,6 +470,24 @@ CONFERENCE;VALUE=URI;FEATURE=AUDIO,VIDEO;
         </front>
         <seriesInfo name="Internet-Draft" value="draft-stepanek-jscalendarbis"/>
       </reference>
+      <reference anchor="UCA" target="https://www.unicode.org/reports/tr10/" quoteTitle="true">
+        <front>
+          <title>UTS #10, Unicode Collation Algorithm (UCA)</title>
+          <author/>
+          <date/>
+        </front>
+      </reference>
+      <reference anchor="UNorm" target="https://www.unicode.org/reports/tr15/" quoteTitle="false">
+        <front>
+          <title>UTS #15, Unicode Normalization Forms</title>
+          <author/>
+          <date/>
+        </front>
+      </reference>
     </references>
+    <section anchor="acknowledgments" numbered="false">
+      <name>Acknowledgments</name>
+      <t>The descriptions of Canada Day in the example in <xref target="comp-vlocalization"/> were copied from the <eref target="https://en.wikipedia.org/wiki/Canada_Day">English Wikipedia website</eref> which makes the text available under the <eref target="https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License">Creative Commons Attribution-ShareAlike 4.0 License</eref>.</t>
+    </section>
   </back>
 </rfc>
