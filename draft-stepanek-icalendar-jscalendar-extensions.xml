@@ -37,9 +37,7 @@
   <middle>
     <section>
       <name>Introduction</name>
-      <t>
-        The JSCalendar <xref target="I-D.stepanek-jscalendarbis"/> format aims to be an alternative to the iCalendar <xref target="RFC5545"/> format for representation of calendaring data.  As such, it introduces new semantics that are not covered in the current definition of iCalendar and its various extensions.  Converting calendaring data between the two formats is defined in <xref target="I-D.ietf-calext-jscalendar-icalendar"/> with the goal of not losing any semantics during conversion. To achieve this, this document defines new elements iCalendar and extends existing definitions.
-      </t>
+      <t>The JSCalendar <xref target="I-D.stepanek-jscalendarbis"/> format aims to be an alternative to the iCalendar <xref target="RFC5545"/> format for representation of calendaring data.  As such, it introduces new semantics that are not covered in the current definition of iCalendar and its various extensions.  Converting calendaring data between the two formats is defined in <xref target="I-D.ietf-calext-jscalendar-icalendar"/> with the goal of not losing any semantics during conversion. To achieve this, this document defines new elements iCalendar and extends existing definitions. Doing so, it follows the recommendations for introducing new iCalendar elements as specified in <xref target="RFC7986" section="3"/>.</t>
       <section anchor="notational-conventions" numbered="true" toc="default">
         <name>Notational Conventions</name>
         <t>The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST NOT</bcp14>", "<bcp14>REQUIRED</bcp14>", "<bcp14>SHALL</bcp14>", "<bcp14>SHALL NOT</bcp14>", "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>", "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>", "<bcp14>MAY</bcp14>", and "<bcp14>OPTIONAL</bcp14>" in this document are to be interpreted as described in BCP 14 <xref target="RFC2119" format="default" sectionFormat="of" derivedContent="RFC2119"/> <xref target="RFC8174" format="default" sectionFormat="of" derivedContent="RFC8174"/> when, and only when, they appear in all capitals, as shown here.</t>
@@ -53,7 +51,7 @@
     <section>
       <name>Updated Properties</name>
       <section>
-        <name>GEO Property</name>
+        <name>GEO</name>
         <t>This specification modifies the definition of the "GEO" property to also allow "geo" URI values <xref target="RFC5870"/> as property values. The following additions are made to the definition of this property, originally specified in <xref target="RFC5545" section="3.8.1.6"/>:</t>
         <dl>
           <dt>Value Type:</dt>
@@ -103,7 +101,7 @@ GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
     <section anchor="new-properties">
       <name>New Properties</name>
       <section>
-        <name>SHOW-WITHOUT-TIME Property</name>
+        <name>SHOW-WITHOUT-TIME</name>
         <dl>
           <dt>Property Name:</dt>
           <dd>SHOW-WITHOUT-TIME</dd>
@@ -120,7 +118,7 @@ GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
             <t>This indicates that the exact time span is not important to display to the user when rendering this calendar object. An example of this is an event that conceptually occurs all day, but in contrast to a DATE value is limited to a specific time zone or business hours. While the time component is important for free-busy calculations and checking for scheduling clashes, calendars may choose to display it as an all-day event and/or display the object separately to other objects to enhance the user's view of their schedule.</t>
             <t>This property only is for presentation purposes, it does not have any impact on the temporal characteristics of a calendar object.</t>
             <t>This property <bcp14>MAY</bcp14> be specified on VEVENT components where the DTSTART property is of type DATE-TIME, or in VTODO components where either the DTSTART or DUE property is specified and has type DATE-TIME. In all other cases it <bcp14>MUST NOT</bcp14> be set. If this property is set, its property value <bcp14>MUST</bcp14> be "TRUE", e.g. it <bcp14>MUST</bcp14> be omitted rather than having value "FALSE".</t>
-            <t>Implementations that are not aware of this property might inadvertently preserve this property when changing a calendar object's temporal type from DATE-TIME to DATE. Implementations aware of this property <bcp14>SHOULD</bcp14> therefore ignore rather than reject the incorrectly specified SHOW-WITHOUT-TIME property. They <bcp14>MUST NOT</bcp14> preserve the ill-specified property in the calendaring data.</t>
+            <t>Implementations that are unaware of the "SHOW-WITHOUT-TIME" property might inadvertently preserve this property when changing a calendar object's temporal type from DATE-TIME to DATE. Implementations <bcp14>SHOULD</bcp14> therefore ignore rather than reject the incorrectly specified SHOW-WITHOUT-TIME property. They <bcp14>MUST NOT</bcp14> preserve the ill-specified property in the calendaring data.</t>
           </dd>
           <dt>Format Definition:</dt>
           <dd>
@@ -147,9 +145,117 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
           </dd>
         </dl>
       </section>
+      <section anchor="prop-uri">
+        <name>URI</name>
+        <dl>
+          <dt>Property Name:</dt>
+          <dd>URI</dd>
+          <dt>Purpose:</dt>
+          <dd>To associate a Uniform Resource Identifier (URI) with a calendar component.</dd>
+          <dt>Value Type:</dt>
+          <dd>URI -- no default</dd>
+          <dt>Property Parameters:</dt>
+          <dd>IANA and non-standard parameters can be specified on this property.</dd>
+          <dt>Conformance:</dt>
+          <dd>This property can be specified once in a "VCONFERENCE" calendar component.</dd>
+          <dt>Description:</dt>
+          <dd>
+            <t>This property associates a Uniform Resource Identifier <xref target="RFC3986"/> with a calendar component. In contrast to the "UID" property, which defines its values to be of type TEXT, this property requires its value to be a syntactically valid URI. In contrast to the "URL" property, this property neither provides a dynamic rendition of the associated calendar component, nor does it <em>locate</em> a resource - it only identifies the calendar component.</t>
+            <t>The semantics and purpose of this identifier <bcp14>MUST</bcp14> be defined for each calendar component containing the "URI" property. This document defines the semantics of the "URI" property for the "VCONFERENCE" component. Similarly, future iCalendar extensions might consider using the "URI" property in cases where associating calendaring data by use of the "UID" and "RELATED-TO" properties is not possible.</t>
+      </dd>
+          <dt>Format Definition:</dt>
+          <dd>
+            <sourcecode name=""><![CDATA[
+uriprop     = "URI" uriparam ":" uri CRLF
+
+uriparam = *(
+            ;
+            ; The following is REQUIRED,
+            ; but MUST NOT occur more than once.
+            ;
+            (";" "VALUE" "=" "URI") /
+            ;
+            ; The following is OPTIONAL,
+            ; and MAY occur more than once.
+            ;
+            (";" other-param)
+            ;
+            )
+]]></sourcecode>
+</dd>
+          <dt>Example:</dt>
+          <dd>
+            <sourcecode name=""><![CDATA[
+URI;VALUE=URI:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6
+]]></sourcecode>
+</dd>
+        </dl>
+      </section>
     </section>
-    <section anchor="new-parameters">
-      <name>New Parameters</name>
+    <section anchor="new-components">
+      <name>New Components</name>
+      <section>
+        <name>VCONFERENCE</name>
+        <dl>
+          <dt>Component Name:</dt>
+          <dd>VCONFERENCE</dd>
+          <dt>Purpose:</dt>
+          <dd>This component provides additional information about a virtual conference specified in the <xref target="RFC7986" section="5.11" sectionFormat="parens">CONFERENCE property</xref>.</dd>
+          <dt>Conformance:</dt>
+          <dd>This component can be specified multiple times in any component that allows to specify the "CONFERENCE" property.</dd>
+          <dt>Description:</dt>
+          <dd>
+            <t>This component augments information provided by the "CONFERENCE" property for a virtual meeting or conference. Specifically, this specification adds support for long-form plain text and rich-text descriptions, which can not feasibly be provided in the "LABEL" parameter of the "CONFERENCE" property.</t>
+            <t>A "VCONFERENCE" component by itself does not represent a virtual meeting and it does not replace information provided by the "CONFERENCE" property. Instead, a calendar component that specifies the "VCONFERENCE" component <bcp14>MUST</bcp14> also specify a "CONFERENCE" property, and that "CONFERENCE" property value <bcp14>MUST</bcp14> match the value of the <xref target="prop-uri">"URI" property</xref> specified in the "VCONFERENCE" component. The URI values <bcp14>MUST</bcp14> be equal character strings, as specified in <xref target="RFC3986" section="6"/>.</t>
+            <t>A "VCONFERENCE" component <bcp14>MAY</bcp14> contain one "DESCRIPTION" property and multiple "STYLED-DESCRIPTION" properties, but one of them <bcp14>MUST NOT</bcp14> specify the "DERIVED" parameter and all others <bcp14>MUST</bcp14> specify the "DERIVED" parameter (e.g. it must have one and only one non-derived description). For future extensibility, this specification does not define the "DESCRIPTION" or "STYLED-DESCRIPTION" properties to be mandatory, but a "VCONFERENCE" component <bcp14>MUST</bcp14> contain at least one property other than the "URI" property.</t>
+            <t>Implementations that are unaware of the "VCONFERENCE" component might inadvertently preserve this component when removing its related "CONFERENCE" property from the calendar object. Changing the URI value of the "CONFERENCE" property is in this context considered a removal followed by inserting a new element. Implementations <bcp14>SHOULD</bcp14> therefore ignore rather than reject such incorrectly specified "VCONFERENCE" components. They <bcp14>MUST NOT</bcp14> preserve the ill-specified component in the calendaring data.</t>
+        </dd>
+          <dt>Format Definition:</dt>
+          <dd>
+            <sourcecode name=""><![CDATA[
+vconfc    = "BEGIN" ":" "VCONFERENCE" CRLF
+            *(
+               ;
+               ; The following are REQUIRED,
+               ; but MUST NOT occur more than once.
+               ;
+               uriprop /
+               ;
+               ; The following are OPTIONAL,
+               ; but MUST NOT occur more than once.
+               ;
+               description /
+               ;
+               ; The following are OPTIONAL,
+               ; and MAY occur more than once
+               ;
+               styleddescription
+               ;
+               ;
+               ; The following are OPTIONAL,
+               ; and MAY occur more than once.
+               ;
+               x-prop / iana-prop
+               ;
+            )
+            "END" ":" "VCONFERENCE" CRLF
+]]></sourcecode>
+          </dd>
+          <dt>Example(s):</dt>
+          <dd>
+            <t>The following is an example of this component:</t>
+            <sourcecode name=""><![CDATA[
+BEGIN:VCONFERENCE
+URI;VALUE=URI:https://chat.example.com/x?id=123456
+DESCRIPTION:This is the first in a series of sessions:\n
+ ...
+END:VCONFERENCE
+CONFERENCE;VALUE=URI;FEATURE=AUDIO,VIDEO;
+ LABEL=Product Brainstorming Session:https://chat.example.com/x?id=123456
+]]></sourcecode>
+          </dd>
+        </dl>
+      </section>
     </section>
     <section anchor="security-considerations" numbered="true" toc="default">
       <name>Security Considerations</name>
@@ -165,9 +271,11 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
       <references>
         <name>Normative References</name>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5234.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5545.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5870.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
       </references>
     </references>
