@@ -214,11 +214,11 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
           <dt>Property Parameters:</dt>
           <dd>The "LANGUAGE" parameter <bcp14>MUST NOT</bcp14> be specified on this property. Other IANA and non-standard parameters can be specified on this property.</dd>
           <dt>Conformance:</dt>
-          <dd>This property can be specified once in a "VCONFERENCE" calendar component.</dd>
+          <dd>This property can be specified once in a "VCONFERENCE" or "VLOCALIZATION" calendar component.</dd>
           <dt>Description:</dt>
           <dd>
             <t>This property associates a Uniform Resource Identifier <xref target="RFC3986"/> with a calendar component. In contrast to the "UID" property, which defines its values to be of type TEXT, this property requires its value to be a syntactically valid URI. In contrast to the "URL" property, this property neither provides a dynamic rendition of the associated calendar component, nor does it <em>locate</em> a resource - it only identifies the calendar component.</t>
-            <t>The semantics and purpose of this identifier <bcp14>MUST</bcp14> be defined for each calendar component containing the "URI" property. This document defines the semantics of the "URI" property for the "VCONFERENCE" component. Similarly, future iCalendar extensions might consider using the "URI" property in cases where associating calendaring data by use of the "UID" and "RELATED-TO" properties is not possible.</t>
+            <t>The semantics and purpose of this identifier <bcp14>MUST</bcp14> be defined for each calendar component containing the "URI" property. This document defines the semantics of the "URI" property for the "VCONFERENCE" and "VLOCALIZATION" components. Similarly, future iCalendar extensions might consider using the "URI" property in cases where associating calendaring data by use of the "UID" and "RELATED-TO" properties is not possible.</t>
           </dd>
           <dt>Format Definition:</dt>
           <dd>
