@@ -113,7 +113,7 @@ GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
           <dt>Property Parameters:</dt>
           <dd>The <xref target="param-hash">"HASH" parameter</xref> <bcp14>MUST</bcp14> be specified exactly once on this property. The "LANGUAGE" parameter <bcp14>MUST NOT</bcp14> be specified on this property. Other IANA and non-standard parameters <bcp14>MAY</bcp14> be specified on this property.</dd>
           <dt>Conformance:</dt>
-          <dd>This property can be specified once in a "VLOCALIZATION" calendar component.</dd>
+          <dd>This property can be specified in a "VLOCALIZATION" calendar component.</dd>
           <dt>Description:</dt>
           <dd>
             <t>This property represents the result of a hash function or checksum algorithm. The semantics and purpose of its property value <bcp14>MUST</bcp14> be defined for each calendar component which allows to specify the "DIGEST" property. See the definition of the  <xref target="comp-vlocalization">"VLOCALIZATION" component</xref> for an example.</t>
@@ -166,7 +166,7 @@ DIGEST;HASH=MD5:a16d6a19dd1d5c3baf591276eff96433
           <dt>Property Parameters:</dt>
           <dd>IANA and non-standard parameters can be specified on this property.</dd>
           <dt>Conformance:</dt>
-          <dd>This property can be specified once in a "VEVENT" or "VTODO" calendar component.</dd>
+          <dd>This property can be specified in a "VEVENT" or "VTODO" calendar component.</dd>
           <dt>Description:</dt>
           <dd>
             <t>This indicates that the exact time span is not important to display to the user when rendering this calendar object. An example of this is an event that conceptually occurs all day, but in contrast to a DATE value is limited to a specific time zone or business hours. While the time component is important for free-busy calculations and checking for scheduling clashes, calendars may choose to display it as an all-day event and/or display the object separately to other objects to enhance the user's view of their schedule.</t>
@@ -214,7 +214,7 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
           <dt>Property Parameters:</dt>
           <dd>The "LANGUAGE" parameter <bcp14>MUST NOT</bcp14> be specified on this property. Other IANA and non-standard parameters can be specified on this property.</dd>
           <dt>Conformance:</dt>
-          <dd>This property can be specified once in a "VCONFERENCE" or "VLOCALIZATION" calendar component.</dd>
+          <dd>This property can be specified in a "VCONFERENCE" or "VLOCALIZATION" calendar component.</dd>
           <dt>Description:</dt>
           <dd>
             <t>This property associates a Uniform Resource Identifier <xref target="RFC3986"/> with a calendar component. In contrast to the "UID" property, which defines its values to be of type TEXT, this property requires its value to be a syntactically valid URI. In contrast to the "URL" property, this property neither provides a dynamic rendition of the associated calendar component, nor does it <em>locate</em> a resource - it only identifies the calendar component.</t>
@@ -293,7 +293,7 @@ DIGEST;HASH=MD5:a16d6a19dd1d5c3baf591276eff96433
           <dt>Purpose:</dt>
           <dd>This component provides additional information about a virtual conference specified in the <xref target="RFC7986" section="5.11" sectionFormat="parens">CONFERENCE property</xref>.</dd>
           <dt>Conformance:</dt>
-          <dd>This component can be specified multiple times in any component that allows to specify the "CONFERENCE" property.</dd>
+          <dd>This component can be specified in any component that allows to specify the "CONFERENCE" property. It <bcp14>MAY</bcp14> occur multiple times, unless the "CONFERENCE" property is defined to occur only once for a specific component</dd>
           <dt>Description:</dt>
           <dd>
             <t>This component augments information provided by the "CONFERENCE" property for a virtual meeting or conference. Specifically, this specification adds support for long-form plain text and rich-text descriptions, which can not feasibly be provided in the "LABEL" parameter of the "CONFERENCE" property.</t>
@@ -355,7 +355,7 @@ CONFERENCE;VALUE=URI;FEATURE=AUDIO,VIDEO;
           <dt>Purpose:</dt>
           <dd>To provide internationalized and localized alternate text representations of calendar component elements.</dd>
           <dt>Conformance:</dt>
-          <dd>This component can be specified multiple times in any component that allows to specify at least one property with the "LANGUAGE" parameter.</dd>
+          <dd>This component can be specified in any component that allows to specify at least one property with the "LANGUAGE" parameter. It <bcp14>MAY</bcp14> occur multiple times, unless defined otherwise for a specific component.</dd>
           <dt>Description:</dt>
           <dd>
             <t>This component provides internationalized and localized alternate text representations of properties specified in a calendar component. Its main purpose is for use with descriptive elements such as the "SUMMARY" or "DESCRIPTION" properties, but it <bcp14>MAY</bcp14> be used with any property on which the "LANGUAGE" parameter can be set.</t>
