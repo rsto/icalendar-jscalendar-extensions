@@ -50,29 +50,56 @@
       <name>Updated Properties</name>
       <section>
         <name>GEO Property</name>
-        <t>This specification modifies the definition of the "GEO" property to also allow "geo" URI values <xref target="RFC5870"/> as property values. The following additions are made to the definition of this property, originally specified in <xref target="RFC5545" section="3.8.1.6"/>:</t>
+        <t>This specification deprecates the "GEO" property and introduces the <xref target="prop-coordinates">"COORDINATES"</xref> property to replace it. Implementations <bcp14>SHOULD NOT</bcp14> use the "GEO" property to represent spatial coordinates. Instead, they <bcp14>SHOULD</bcp14> specify the "COORDINATES" property in a <xref target="RFC9073" section="7.2" sectionFormat="parens">"VLOCATION" component</xref>. They <bcp14>MAY</bcp14> additionally specify a "GEO" property in a "VEVENT" or "VTODO" component, in which case its <xref target="RFC9073" section="5.3" sectionFormat="parens">"DERIVED" parameter</xref> <bcp14>MUST</bcp14> have value "TRUE".</t>
+        <t>The remainder of this section documents the rationale for deprecating the "GEO" property:</t>
+        <t>
+          The "GEO" property definition dates back to 1998, a time at which multiple internet protocols and data formats incorporated spatial coordinates in slightly different formats, making interoperability difficult. This got addressed in 2010 in <xref target="RFC5870"/>, which introduced a Uniform Resource Identifier (URI) for geographic locations. The 'geo' URI scheme not only improves interoperability but also allows for richer information than the "GEO" property value, e.g. it supports specifying the location altitude and the spatial uncertainty of the coordinates.</t>
+        <t>Alternatively to deprecating, this specification could have updated the "GEO" property to allow its property value type to be URI. This turned out to not interoperate, as implementations tended to reject such iCalendar data as invalid. This was regardless if the "GEO" property was specified in a "VEVENT" component, or if it was specified in iCalendar components that were unsupported by the implementation (e.g. an implementation that was unaware of the "VLOCATION" component still rejected the "GEO" property with value type URI in that component as invalid). Introducing a new property turned out to better interoperate with such systems.</t>
+      </section>
+    </section>
+    <section>
+      <name>Updated Components</name>
+      <section>
+        <name>VLOCATION component</name>
+        <t>This document updates the definition of the "VLOCATION" component. It allows to specify the newly defined <xref target="prop-coordinates">"COORDINATES" property</xref> at most once in a "VLOCATION" component. It appends the following to the "Format Definition" of the "VLOCATION" component, defined in <xref target="RFC9073" section="7.2"/>:</t>
+        <sourcecode name=""><![CDATA[
+locprop /= *(
+            ;
+            ; The following is OPTIONAL
+            ; but MUST NOT occur more than once.
+            ;
+            coord
+            ;
+            )
+]]></sourcecode>
+        <t>The "coord" ABNF is defined in <xref target="prop-coordinates"/>.</t>
+      </section>
+    </section>
+    <section anchor="new-properties">
+      <name>New Properties</name>
+      <section anchor="prop-coordinates">
+        <name>COORDINATES Property</name>
         <dl>
-          <dt>Value Type (replaces original):</dt>
-          <dd>The default value type for this property is FLOAT, the value MUST be two SEMICOLON-separated FLOAT values. The value type can also be set to URI, in which case the VALUE parameter <bcp14>MUST</bcp14> be set.</dd>
-          <dt>Description (in addition to original):</dt>
+          <dt>Property Name:</dt>
+          <dd>COORDINATES</dd>
+          <dt>Purpose:</dt>
+          <dd>To represent a geographic location using the protocol-independent, extensible "geo" URI scheme.</dd>
+          <dt>Value Type:</dt>
+          <dd>URI -- no default</dd>
+          <dt>Property Parameters:</dt>
+          <dd>IANA and non-standard parameters <bcp14>MAY</bcp14> be specified on this property.</dd>
+          <dt>Conformance:</dt>
+          <dd>This property can be specified in a "VLOCATION" calendar component.</dd>
+          <dt>Description:</dt>
           <dd>
-            <t>A Uniform Resource Identifier for Geographic Locations ("geo" URI) allows for richer semantics than the FLOAT value, such as defining geographic altitude, location uncertainty or the coordinate's reference system. The GEO property value <bcp14>MAY</bcp14> be of type URI to contain such coordinates. Property values of type URI <bcp14>MUST</bcp14> be valid according to the "geo" URI scheme syntax defined in <xref target="RFC5870" section="3.3"/>.</t>
+            <t>This property represents spatial (geographic) coordinates. In contrast to the the "GEO" property, this property allows to represent not only latitude and longitude but also altitude of a location. In addition, it supports to indicate the uncertainty of the coordinates, is interoperable with other internet standards making use of spatial information, and is extensible, such as for use with other coordinate reference systems. The property value <bcp14>MUST</bcp14> a URI in the "geo" URI scheme, as defined in <xref target="RFC5870"/> and updates.</t>
           </dd>
-          <dt>Format Definition (replaces original):</dt>
+          <dt>Format Definition:</dt>
           <dd>
             <sourcecode name=""><![CDATA[
-geo         = geofloat / geouri
+coord       = "COORDINATES" coordparam ":" uri CRLF
 
-geofloat    = "GEO" geoparam ":" geovalue CRLF
-
-geoparam    = *(";" other-param)
-
-;Latitude and Longitude components
-geovalue    = float ";" float
-
-geouri      = "GEO" geouriparam ":" uri CRLF
-
-geouriparam = *(
+coordparam  = *(
                ;
                ; The following is REQUIRED,
                ; but MUST NOT occur more than once.
@@ -87,20 +114,15 @@ geouriparam = *(
                )
 ]]></sourcecode>
           </dd>
-          <dt>Example(s):</dt>
+          <dt>Example:</dt>
           <dd>
-            <t>The following are examples of this property:</t>
+            <t>The following is an example of this property:</t>
             <sourcecode name=""><![CDATA[
-GEO:37.386013;-122.082932
-
-GEO;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
+COORDINATES;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
 ]]></sourcecode>
           </dd>
         </dl>
       </section>
-    </section>
-    <section anchor="new-properties">
-      <name>New Properties</name>
       <section anchor="prop-digest">
         <name>DIGEST Property</name>
         <dl>
@@ -443,6 +465,7 @@ END:VLOCALIZATION
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7986.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8141.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8174.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9073.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9562.xml"/>
       </references>
     </references>
