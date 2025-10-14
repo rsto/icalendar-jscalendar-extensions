@@ -172,6 +172,26 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
         </dl>
       </section>
     </section>
+    <section anchor="new-enum-values">
+      <name>New Values</name>
+      <section anchor="param-role-owner">
+        <name>OWNER Participation Role</name>
+        <dl>
+          <dt>Value:</dt>
+          <dd>OWNER</dd>
+          <dt>Purpose:</dt>
+          <dd>This participation role indicates that the calendar user is an owner of the calendar object. This signifies they can make changes that affect all calendar users participating in this calendar object (for example, rescheduling the calendar object, adding and removing attendees and roles). The presence of this role only is indicative, its semantics are subject to the calendaring exchange protocol being used. See <xref target="jmap-calendars"/> for an example for making use of this role.</dd>
+          <dt>Conformance:</dt>
+          <dd>This value can be used with the "ROLE" parameter.</dd>
+          <dt>Example(s):</dt>
+          <dd>
+            <sourcecode name=""><![CDATA[
+ATTENDEE;ROLE=OWNER;RSVP=TRUE:mailto:jsmith@example.com
+]]></sourcecode>
+          </dd>
+        </dl>
+      </section>
+    </section>
     <section anchor="security-considerations" numbered="true" toc="default">
       <name>Security Considerations</name>
       <t>This specification extends <xref target="RFC5545"/>.  The same security considerations as outlined in <xref target="RFC5545" sectionFormat="of" section="7"/> apply.</t>
@@ -219,6 +239,19 @@ SHOW-WITHOUT-TIME;VALUE=BOOLEAN:TRUE
           <date day="12" month="May" year="2025"/>
         </front>
         <seriesInfo name="Internet-Draft" value="draft-stepanek-jscalendarbis"/>
+      </reference>
+      <reference anchor="jmap-calendars" target="https://datatracker.ietf.org/doc/draft-ietf-jmap-calendars/">
+        <front>
+          <title>JMAP for Calendars</title>
+          <author fullname="Neil Jenkins" initials="N.M." surname="Jenkins">
+            <organization>Fastmail</organization>
+          </author>
+          <author fullname="Michael Douglass" initials="M." surname="Douglass">
+            <organization>Spherical Cow Group</organization>
+          </author>
+          <date day="22" month="July" year="2024"/>
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-jmap-calendars"/>
       </reference>
     </references>
   </back>
