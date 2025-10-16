@@ -5,7 +5,7 @@
 <!ENTITY nbhy "&#8209;">
 <!ENTITY wj "&#8288;">
 ]>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" category="std" consensus="true" docName="draft-ietf-calext-icalendar-jscalendar-extensions-02" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" category="std" consensus="true" docName="draft-ietf-calext-icalendar-jscalendar-extensions-03" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
   <front>
     <title abbrev="iCalendar JSCalendar Extensions">iCalendar Format Extensions for JSCalendar</title>
     <author initials="R." surname="Stepanek" fullname="Robert Stepanek">
@@ -22,7 +22,7 @@
         <email>rsto@fastmailteam.com</email>
       </address>
     </author>
-    <date year="2025" month="July" day="20"/>
+    <date year="2025" month="October" day="16"/>
     <area>art</area>
     <workgroup>calext</workgroup>
     <keyword>calendars</keyword>
@@ -223,7 +223,7 @@ ATTENDEE;ROLE=OWNER;RSVP=TRUE:mailto:jsmith@example.com
           <author fullname="Robert Stepanek" initials="R." surname="Stepanek">
             <organization>Fastmail</organization>
           </author>
-          <date day="12" month="May" year="2025"/>
+          <date day="16" month="October" year="2025"/>
         </front>
         <seriesInfo name="Internet-Draft" value="draft-ietf-calext-jscalendar-icalendar"/>
       </reference>
@@ -236,7 +236,7 @@ ATTENDEE;ROLE=OWNER;RSVP=TRUE:mailto:jsmith@example.com
           <author fullname="Robert Stepanek" initials="R." surname="Stepanek">
             <organization>Fastmail</organization>
           </author>
-          <date day="12" month="May" year="2025"/>
+          <date day="16" month="October" year="2025"/>
         </front>
         <seriesInfo name="Internet-Draft" value="draft-stepanek-jscalendarbis"/>
       </reference>
@@ -249,7 +249,7 @@ ATTENDEE;ROLE=OWNER;RSVP=TRUE:mailto:jsmith@example.com
           <author fullname="Michael Douglass" initials="M." surname="Douglass">
             <organization>Spherical Cow Group</organization>
           </author>
-          <date day="22" month="July" year="2024"/>
+          <date day="8" month="October" year="2025"/>
         </front>
         <seriesInfo name="Internet-Draft" value="draft-ietf-jmap-calendars"/>
       </reference>
