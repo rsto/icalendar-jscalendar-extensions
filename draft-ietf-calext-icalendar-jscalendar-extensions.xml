@@ -56,6 +56,49 @@
           The "GEO" property definition dates back to 1998, a time at which multiple internet protocols and data formats incorporated spatial coordinates in slightly different formats, making interoperability difficult. This got addressed in 2010 in <xref target="RFC5870"/>, which introduced a Uniform Resource Identifier (URI) for geographic locations. The 'geo' URI scheme not only improves interoperability but also allows for richer information than the "GEO" property value, e.g. it supports specifying the location altitude and the spatial uncertainty of the coordinates.</t>
         <t>Alternatively to deprecating, this specification could have updated the "GEO" property to allow its property value type to be URI. This turned out to not interoperate, as implementations tended to reject such iCalendar data as invalid. This was regardless if the "GEO" property was specified in a "VEVENT" component, or if it was specified in iCalendar components that were unsupported by the implementation (e.g. an implementation that was unaware of the "VLOCATION" component still rejected the "GEO" property with value type URI in that component as invalid). Introducing a new property turned out to better interoperate with such systems.</t>
       </section>
+      <section>
+        <name>COLOR Property</name>
+        <t>This specification modifies the definition of the "COLOR" property, it allows its value to be a named color or a numeric color. The following definitions replace the definitions of the "COLOR" property, originally specified in <xref target="RFC7986" section="5.9"/> from which the definitions for "Description", "Format Definition" and "Example" differ.</t>
+        <dl>
+          <dt>Property Name:</dt>
+          <dd>COLOR</dd>
+          <dt>Purpose:</dt>
+          <dd>This property specifies a color used for displaying the calendar, event, todo, or journal data.</dd>
+          <dt>Value Type:</dt>
+          <dd>TEXT</dd>
+          <dt>Property Parameters:</dt>
+          <dd>IANA and non-standard property parameters can be specified on this property.</dd>
+          <dt>Conformance:</dt>
+          <dd>This property can be specified once in an iCalendar object or in "VEVENT", "VTODO", or "VJOURNAL" calendar components.</dd>
+          <dt>Description:</dt>
+          <dd>
+            <t>This property specifies a color that clients <bcp14>MAY</bcp14> use when presenting the relevant data to a user.  Typically, this would appear as the "background" color of events or tasks. The value is a color name taken from the set of names defined in <xref target="CSS3" section="4.3" relative="#svg-color"/> or an RGB value in six-digit hexadecimal notation, as defined in <xref target="CSS3" section="4.2.1" relative="#rgb-color"/>. Values are case-insensitive.</t>
+          </dd>
+          <dt>Format Definition:</dt>
+          <dd>
+            <t>This property is defined by the following notation:</t>
+            <sourcecode name=""><![CDATA[
+color       = "COLOR" colorparam ":" text CRLF
+              ; Value is CSS3 color name or CSS3 six-digit RGB hex value.
+
+colorparam     = *(";" other-param)
+]]></sourcecode>
+          </dd>
+          <dt>Example:</dt>
+          <dd>
+            <t>The following are examples of this property:</t>
+            <sourcecode name=""><![CDATA[
+COLOR:turquoise
+]]></sourcecode>
+            <sourcecode name=""><![CDATA[
+COLOR:#40E0D0
+]]></sourcecode>
+            <sourcecode name=""><![CDATA[
+COLOR:#ffd755
+]]></sourcecode>
+          </dd>
+        </dl>
+      </section>
     </section>
     <section>
       <name>Updated Components</name>
@@ -206,6 +249,22 @@ ATTENDEE;ROLE=OWNER;RSVP=TRUE:mailto:jsmith@example.com
       <name>References</name>
       <references>
         <name>Normative References</name>
+        <reference anchor="CSS3" target="https://www.w3.org/TR/css-color-3/" quoteTitle="true" derivedAnchor="CSS3">
+          <front>
+            <title>CSS Color Module Level 3</title>
+            <author initials="T" surname="Çelik" fullname="Tantek Çelik">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="C" surname="Lilley" fullname="Chris Lilley">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="L" surname="Baron" fullname="L. David Baron">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date month="January" year="2022"/>
+          </front>
+          <refcontent>W3C Recommendation</refcontent>
+        </reference>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5234.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.5545.xml"/>
