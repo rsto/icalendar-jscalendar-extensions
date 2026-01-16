@@ -48,7 +48,7 @@
     </section>
     <section>
       <name>Updated Properties</name>
-      <section>
+      <section anchor="prop-geo">
         <name>GEO Property</name>
         <t>This specification deprecates the "GEO" property and introduces the <xref target="prop-coordinates">"COORDINATES"</xref> property to replace it. Implementations <bcp14>SHOULD NOT</bcp14> use the "GEO" property to represent spatial coordinates. Instead, they <bcp14>SHOULD</bcp14> specify the "COORDINATES" property in a <xref target="RFC9073" section="7.2" sectionFormat="parens">"VLOCATION" component</xref>. They <bcp14>MAY</bcp14> additionally specify a "GEO" property in a "VEVENT" or "VTODO" component, in which case its <xref target="RFC9073" section="5.3" sectionFormat="parens">"DERIVED" parameter</xref> <bcp14>MUST</bcp14> have value "TRUE".</t>
         <t>The remainder of this section documents the rationale for deprecating the "GEO" property:</t>
@@ -56,7 +56,7 @@
           The "GEO" property definition dates back to 1998, a time at which multiple internet protocols and data formats incorporated spatial coordinates in slightly different formats, making interoperability difficult. This got addressed in 2010 in <xref target="RFC5870"/>, which introduced a Uniform Resource Identifier (URI) for geographic locations. The 'geo' URI scheme not only improves interoperability but also allows for richer information than the "GEO" property value, e.g. it supports specifying the location altitude and the spatial uncertainty of the coordinates.</t>
         <t>Alternatively to deprecating, this specification could have updated the "GEO" property to allow its property value type to be URI. This turned out to not interoperate, as implementations tended to reject such iCalendar data as invalid. This was regardless if the "GEO" property was specified in a "VEVENT" component, or if it was specified in iCalendar components that were unsupported by the implementation (e.g. an implementation that was unaware of the "VLOCATION" component still rejected the "GEO" property with value type URI in that component as invalid). Introducing a new property turned out to better interoperate with such systems.</t>
       </section>
-      <section>
+      <section anchor="prop-color">
         <name>COLOR Property</name>
         <t>This specification modifies the definition of the "COLOR" property, it allows its value to be a named color or a numeric color. The following definitions replace the definitions of the "COLOR" property, originally specified in <xref target="RFC7986" section="5.9"/> from which the definitions for "Description", "Format Definition" and "Example" differ.</t>
         <dl>
@@ -102,7 +102,7 @@ COLOR:#ffd755
     </section>
     <section>
       <name>Updated Components</name>
-      <section>
+      <section anchor="comp-vlocation">
         <name>VLOCATION component</name>
         <t>This document updates the definition of the "VLOCATION" component. It allows to specify the newly defined <xref target="prop-coordinates">"COORDINATES" property</xref> at most once in a "VLOCATION" component. It appends the following to the "Format Definition" of the "VLOCATION" component, defined in <xref target="RFC9073" section="7.2"/>:</t>
         <sourcecode name=""><![CDATA[
@@ -166,7 +166,7 @@ COORDINATES;VALUE=URI:geo:48.198634,16.371648;crs=wgs84;u=40
           </dd>
         </dl>
       </section>
-      <section>
+      <section anchor="prop-show-without-time">
         <name>SHOW-WITHOUT-TIME Property</name>
         <dl>
           <dt>Property Name:</dt>
@@ -239,9 +239,53 @@ ATTENDEE;ROLE=OWNER;RSVP=TRUE:mailto:jsmith@example.com
       <name>Security Considerations</name>
       <t>This specification extends <xref target="RFC5545"/>.  The same security considerations as outlined in <xref target="RFC5545" sectionFormat="of" section="7"/> apply.</t>
     </section>
-    <section anchor="IANA">
+    <section anchor="iana">
       <name>IANA Considerations</name>
-      <t>TBD</t>
+      <t>IANA will update the "iCalendar Element Registries" as follows.</t>
+      <section anchor="iana-components-registry">
+        <name>Changes to the "Components" registry</name>
+        <t>IANA will update the entry of the "VLOCATION" component: it will add <xref target="comp-vlocation"/> of this document to the References.</t>
+      </section>
+      <section anchor="iana-properties-registry">
+        <name>Changes to the "Properties" registry</name>
+        <t>IANA will change the entry for the "GEO" property: it will set the Status from "Current" to "Deprecated" and add <xref target="prop-geo"/> of this document to the References.</t>
+        <t>IANA will change the entry for the "COLOR" property: tt will add <xref target="prop-color"/> of this document to the References.</t>
+        <t>IANA will add the following entries:</t>
+        <dl spacing="compact">
+          <dt>Property</dt>
+          <dd>COORDINATES</dd>
+          <dt>Status</dt>
+          <dd>Current</dd>
+          <dt>Reference</dt>
+          <dd>
+            <xref target="prop-coordinates"/>
+          </dd>
+        </dl>
+        <dl spacing="compact">
+          <dt>Property</dt>
+          <dd>SHOW-WITHOUT-TIME</dd>
+          <dt>Status</dt>
+          <dd>Current</dd>
+          <dt>Reference</dt>
+          <dd>
+            <xref target="prop-show-without-time"/>
+          </dd>
+        </dl>
+      </section>
+      <section anchor="iana-participation-roles-registry">
+        <name>Changes to the "Participation Roles" registry</name>
+        <t>IANA will add the following entry:</t>
+        <dl spacing="compact">
+          <dt>Role Type</dt>
+          <dd>OWNER</dd>
+          <dt>Status</dt>
+          <dd>Current</dd>
+          <dt>Reference</dt>
+          <dd>
+            <xref target="param-role-owner"/>
+          </dd>
+        </dl>
+      </section>
     </section>
   </middle>
   <back>
