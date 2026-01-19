@@ -5,7 +5,7 @@
 <!ENTITY nbhy "&#8209;">
 <!ENTITY wj "&#8288;">
 ]>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" category="std" consensus="true" docName="draft-ietf-calext-icalendar-jscalendar-extensions-04" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" category="std" consensus="true" docName="draft-ietf-calext-icalendar-jscalendar-extensions-04" obsoletes="" updates="5545,7986,9073" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
   <front>
     <title abbrev="iCalendar JSCalendar Extensions">iCalendar Format Extensions for JSCalendar</title>
     <author initials="R." surname="Stepanek" fullname="Robert Stepanek">
@@ -29,13 +29,13 @@
     <keyword>iCalendar</keyword>
     <keyword>JSCalendar</keyword>
     <abstract>
-      <t>This document defines a set of new elements for iCalendar and extends the use of existing ones. Their main purpose is to extend the semantics of iCalendar with elements defined in JSCalendar, but the new definitions also aim to be useful within just the iCalendar format.  This document updates RFC 5545 ("Internet Calendaring and Scheduling Core Object Specification (iCalendar)").</t>
+      <t>This document defines a set of new elements for iCalendar and extends the use of existing ones. Their main purpose is to extend the semantics of iCalendar with elements defined in JSCalendar, but the new definitions also aim to be useful within just the iCalendar format.  This document updates RFC 5545 ("iCalendar") and its extension documents RFC 7986 and RFC 9073.</t>
     </abstract>
   </front>
   <middle>
     <section>
       <name>Introduction</name>
-      <t>The JSCalendar <xref target="I-D.stepanek-jscalendarbis"/> format aims to be an alternative to the iCalendar <xref target="RFC5545"/> format for representation of calendaring data.  As such, it introduces new semantics that are not covered in the current definition of iCalendar and its various extensions.  Converting calendaring data between the two formats is defined in <xref target="I-D.ietf-calext-jscalendar-icalendar"/> with the goal of not losing any semantics during conversion. To achieve this, this document defines new elements iCalendar and extends existing definitions. Doing so, it follows the recommendations for introducing new iCalendar elements as specified in <xref target="RFC7986" section="3"/>.</t>
+      <t>The JSCalendar <xref target="I-D.stepanek-jscalendarbis"/> format aims to be an alternative to the iCalendar <xref target="RFC5545"/> format for representation of calendaring data.  It introduces new semantics that are not covered in the current definition of iCalendar and its various extensions.  Converting calendaring data between the two formats is defined in <xref target="I-D.ietf-calext-jscalendar-icalendar"/> with the goal of not losing any semantics during conversion. To achieve this, this document defines new elements iCalendar and extends existing definitions. To do so, it follows the recommendations for introducing new iCalendar elements as specified in <xref target="RFC7986" section="3"/>. This document updates the definitions of the <xref target="RFC5545" section="3.8.1.6" sectionFormat="parens">GEO property</xref>, the <xref target="RFC7986" section="5.9" sectionFormat="parens">COLOR property</xref> and the <xref target="RFC9073" section="7.2" sectionFormat="parens">VLOCATION component</xref>.</t>
       <section anchor="notational-conventions" numbered="true" toc="default">
         <name>Notational Conventions</name>
         <t>The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST NOT</bcp14>", "<bcp14>REQUIRED</bcp14>", "<bcp14>SHALL</bcp14>", "<bcp14>SHALL NOT</bcp14>", "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>", "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>", "<bcp14>MAY</bcp14>", and "<bcp14>OPTIONAL</bcp14>" in this document are to be interpreted as described in BCP 14 <xref target="RFC2119" format="default" sectionFormat="of" derivedContent="RFC2119"/> <xref target="RFC8174" format="default" sectionFormat="of" derivedContent="RFC8174"/> when, and only when, they appear in all capitals, as shown here.</t>
