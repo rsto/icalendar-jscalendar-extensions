@@ -249,7 +249,7 @@ ATTENDEE;ROLE=OWNER;RSVP=TRUE:mailto:jsmith@example.com
       <section anchor="iana-properties-registry">
         <name>Changes to the "Properties" registry</name>
         <t>IANA will change the entry for the "GEO" property: it will set the Status from "Current" to "Deprecated" and add <xref target="prop-geo"/> of this document to the References.</t>
-        <t>IANA will change the entry for the "COLOR" property: tt will add <xref target="prop-color"/> of this document to the References.</t>
+        <t>IANA will change the entry for the "COLOR" property: it will add <xref target="prop-color"/> of this document to the References.</t>
         <t>IANA will add the following entries:</t>
         <dl spacing="compact">
           <dt>Property</dt>
